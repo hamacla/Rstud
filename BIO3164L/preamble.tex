@@ -1,0 +1,58 @@
+%
+% C'est ici que sont définies les principales options pour LaTeX
+%
+
+%%%%%%%%%%%%%%%%%
+% Paquets LaTeX %
+%%%%%%%%%%%%%%%%%
+
+\usepackage[french]{babel} % Pour un document en français
+\usepackage{lettrine}      % Pour faire des lettrines
+\usepackage{verbatim}      % Pour pouvoir inclure ce fichier tel quel
+                           % dans le document final
+\usepackage{xcolor} % Pour faire du texte en couleur
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Définitions de macros LaTeX %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Définition des couleurs utilisées
+
+\definecolor{bleu}{rgb}{0.0,0,0.3}
+\definecolor{rouge}{rgb}{0.3,0.0,0.0}
+\definecolor{noir}{rgb}{0.0,0.0,0.0}
+
+% Pour faire référence à la section trucmuche page machin, par
+% exemple "section 1.2.3 page 18". Le seul argument est le
+% nom du label associé à la section. Le caractère ~ représente
+% une espace insécable.
+
+\newcommand{\refs}[1]{section~\ref{#1} page~\pageref{#1}}
+
+% Pour faire référence à la figure trucmuche page machin
+
+\newcommand{\reff}[1]{figure~\ref{#1} page~\pageref{#1}}
+
+% Pour faire référence à la table trucmuche page machin
+
+\newcommand{\reft}[1]{table~\ref{#1} page~\pageref{#1}}
+
+%
+% Pour insérer une figure au format jpg dans le dossier figs.
+% Le premier argument est le nom du fichier sans extension,
+% le deuxième la taille horizontale de la figure, le troisième
+% la légende de la figure. Un label du même nom que le fichier
+% est inséré pour pouvoir faire facilement référence à la figure.
+%
+
+\newcommand{\myjpg}[3]{
+  \begin{figure}
+    \begin{center}
+      \fbox{\begin{minipage}{#2\textwidth}
+        \includegraphics[width=\textwidth]{figs/#1.jpg}
+        \caption{\label{#1} #3}
+      \end{minipage}}
+    \end{center}
+  \end{figure}
+}

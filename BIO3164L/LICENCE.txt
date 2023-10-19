@@ -1,0 +1,105 @@
+Licence des fichiers du dossier BIO3164L
+
+Copyright © 2022, Jean R. Lobry
+
+Tous les fichiers du présent dossier sont distribués sous licences
+libres. Tous les fichiers sont sous licence libre DSSL (reproduite
+ci-après) à l'exception du fichier "abstract-to-meta.lua" qui est
+sous licence libre MIT (Expat).
+
+------------------------------------------------------------------
+
+                          Licence DSSL
+
+------------------------------------------------------------------
+Demerden Sie Sich License
+
+Version 1, 15 Mars 2010
+
+Copyright © 2010 Flyounet. <http://flyounet.net/>
+
+Chacun est autorisé à copier et distribuer des copies conformes de
+ce document de licence, mais toute modification en est proscrite.
+DSSL : Demerden Sie Sich License Préambule :
+
+La Licence Démerdez-vous («Demerden Sie Sich License») est une
+licence libre, en «copyleft», destinée aux œuvres logicielles et
+d’autres types de travaux. Elle s'appuie sur des fondamentaux
+comme la Licence Lis ce Putain de Manuel ("Read This Fucking
+Manual License").
+
+«Cette Licence» est auto-récursive, puisqu'elle est, elle même,
+assujetie à la «Demerden Sie Sich License». Termes et Conditions :
+Article 0. Définitions.
+
+    «Cette Licence» se réfère à la version 1 de la «Demerden Sie
+    Sich License» (le texte original en français). «Démerder», se
+    réfère au sens de se «débrouiller». A aucun moment «cette
+    Licence» ne vous demandera de vous enduire (vous ou votre
+    œuvre) d'excréments humains (ni même animal). «Œuvre» est
+    aussi appelée «travail» (quelques fois, l'extension «de
+    sagouin» peut lui être apposée), «programme» ou tout autre
+    terme relatif à ce qui a été effectué. Ainsi, une
+    «documentation» ou un «manuel» peut être considéré comme une
+    œuvre. «Auteur» signifie que la personne (ou groupe de
+    personnes), qui utilise «cette Licence», se lave complètement
+    les mains de la façon dont vous utiliserez son œuvre.
+
+Article 1. Permissions de base.
+
+Tous les droits accordés suivant «cette Licence» le sont jusqu’au
+terme de la volonté de son «Auteur». «Cette Licence» affirme
+explicitement votre permission illimitée de vous en sortir par
+vous même. «Cette Licence» reconnait vos propres droits d’usage
+raisonnable (droit de poser des questions à l'«Auteur», droit de
+discuter avec qui vous voulez de «cette Licence» et du contenu de
+l'œuvre).
+
+Vous pouvez critiquer, vitupérer et propager votre rancœur sans
+condition envers «cette Licence» ou l'œuvre courverte par
+celle-ci.
+
+L'«Auteur» peut à tout moment décider de passer outre «cette
+Licence» en accordant de l'aide (qui peut être elle-même couverte
+par «cette Licence») efficace ou non. Le fait d'apporter de l'aide
+n'enlève pas «cette Licence» à l'œuvre à laquelle elle est liée.
+Article 2. Limitation de responsabilité.
+
+L'«Auteur» peut-être considéré comme irresponsable et il incombe à
+l'utilisateur en priorité de se «démerder» par lui même.
+
+FIN DES TERMES ET CONDITIONS.
+------------------------------------------------------------------
+
+------------------------------------------------------------------
+
+                         Licence MIT (Expat)
+
+------------------------------------------------------------------
+
+En cas de litige, seule la version originale
+(https://www.debian.org/legal/licenses/mit.en.html) de cette page
+a valeur juridique.
+
+La présente autorise, de façon libre et gratuite, à toute personne
+obtenant une copie de ce programme et des fichiers de
+documentation associés (le "Programme"), de distribuer le
+Programme sans restriction, y compris sans limitation des droits
+d'utiliser, copier, modifier, fusionner, publier, distribuer,
+sous-autoriser ou vendre des copies du Programme, et de permettre
+aux personnes à qui le Programme est fourni d'en faire autant, aux
+conditions suivantes.
+
+Le copyright précédent et cette autorisation doivent être
+distribués dans toute copie entière ou substantielle de ce
+Programme.
+
+Le Programme est fourni en l'état, sans garantie d'aucune sorte,
+explicite ou implicite, y compris les garanties de
+commercialisation ou d'adaptation dans un but particulier et
+l'absence de contrefaçon. En aucun cas les auteurs ou ayants droit
+ne seront tenus responsables de réclamations, dommages ou autres,
+que ce soit dans une action de nature contractuelle, préjudiciable
+ou autres façons, découlant de, hors ou en connexion avec le
+Programme ou l'utilisation ou autres modifications du Programme. 
+------------------------------------------------------------------

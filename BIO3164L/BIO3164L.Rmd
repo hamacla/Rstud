@@ -1,0 +1,755 @@
+---
+title: "\\color{bleu}De l'impact de \\color{rouge}l'ensoleillement \\color{bleu} sur la croissance de deux variétés de lentilles (*Lens culinaris* subsp. *culinaris* Medik.)"
+documentclass: article
+classoption: a4paper
+output:
+  pdf_document:
+    number_sections: true
+    includes:
+      in_header: preamble.tex
+    pandoc_args: ["--lua-filter=abstract-to-meta.lua"]
+date: "\\color{bleu}`r Sys.Date()`"
+author: "\\color{rouge}Jean R. Lobry, Université Claude Bernard - Lyon I"
+bibliography: biblioBIO3164L.bib
+---
+
+
+```{r setup, include=FALSE}
+##################################################
+# Options générales pour les fragments de code R # 
+##################################################
+# Ils seront exécutés mais pas intégrés directement 
+# dans le document pour pouvoir les regrouper
+# tous en annexe
+knitr::opts_chunk$set(include = FALSE)
+# On demande à ce que le codage des caractères soit
+# en UTF-8
+options(encoding = "UTF-8") 
+```
+
+
+```{r param}
+######################################################
+# Paramètres généraux utilisés dans tout le document #
+######################################################
+
+# Les paquets R utilisés :
+library(xtable) # Pour générer des tables LaTeX
+
+# Le risque de première espèce pour les tests statistiques :
+alpha <- 0.05
+
+# Le seuil en mm pour déclarer qu'il y a eu germination
+seuilG <- 10
+
+# Les types de conditions expérimentales et les variétés
+# de lentilles existants :
+all.types <- c("E1V1", "E1V2", "E2V1", "E2V2")
+```
+
+
+\newpage
+
+# Note liminaire{-}
+
+\lettrine{C}{ette} note liminaire, ainsi que toutes les notes de bas de page, sont des commentaires uniquement destinés aux étudiants de l'UE BIO3164L \frquote{Statistique impliquée} et n'ont donc pas vocation à figurer dans le rapport à rendre. Vous devrez donc supprimer cette note liminaire ainsi que tout ce qui est \verb!\footnote{...}! dans le fichier \texttt{*.Rmd}.
+
+\lettrine{P}{our} faciliter la gestion des rapports, vous devrez renommer le fichier \texttt{BIO3164L.Rmd} en utilisant votre nom et prénom sans caractères diacrités ni espaces ni caractères spéciaux, par exemple pour Stéphanie \bsc{Von Haÿ-les-Roses} en \texttt{VonHayLesRosesStephanie.Rmd}. Le rapport doit être déposé au format PDF (soit le fichier \texttt{VonHayLesRosesStephanie.pdf}) et ne pas excéder 5 Mio pour pouvoir être déposé sur TOMUSS.
+
+\lettrine{N}{e jamais jamais jamais} faire de copier/coller dans ce document \texttt{*.Rmd} à partir d'un logiciel de traitement de texte (type word) oo de toute autre origine\footnote{Sauf si vous êtes absolument certain qu'elle respecte la norme UTF-8.}. Restez \textit{toujours} dans \texttt{RStudio} pour rédiger votre rapport. Sinon, vous risquez d'avoir des erreur cryptiques du genre :
+
+\noindent\texttt{! LaTeX Error: Unicode character (U+0301)
+               not set up for use with LaTeX.}
+
+\lettrine{A}{fin} ne pas être injustement accusé de plagiat il vous suffit de citer dans la \refs{repro} vos sources avec une phrase du type : \frquote{le présent rapport a été composé en s'inspirant du document \texttt{BIO3164L.Rmd} disponible sous licence DSSL\footnote{\url{https://dssl.flyounet.net/}}}. Pour vous aider à vous y retrouver, \color{bleu} tous les textes coloriés en bleu peuvent rester tels quels dans votre rapport, \color{rouge} alors que les textes coloriés en rouge doivent \textit{impérativement} être adapté à vos propres résultats.
+
+\color{bleu}
+
+
+\newpage
+
+# Introduction
+
+\color{bleu}\lettrine{L}{es} lentilles cultivées (\textit{Lens culinaris} subsp. \textit{culinaris} Friedrich Kasimir \textsc{Medikus}, 1787) sont généralement consommées sous la forme des graines d'icelles cuites (\textit{e.g.} petit salé aux lentilles, purée de lentilles, soupe aux lentilles, canard confit aux lentilles, salade de lentilles). Une alternative consiste à faire germer les graines et utiliser les plants produits comme source alimentaire (\textit{e.g.} salade de lentilles germées, falafels de lentilles germées, caviar de lentilles germées, curry de lentilles germées). L'avantage de procéder ainsi est que les plants ont une meilleure valeur nutritionnelles par rapport aux graines dont ils sont issus [@FouadAA2015; @SantosCS2020; @DhulSB2022]. Il y a donc un intérêt culinaire et diététique à mieux comprendre quels sont les facteurs qui peuvent influencer la croissance des plants de lentilles.
+
+# Matériel et méthodes
+
+## Matériel
+
+### Les consommables\label{conso}
+
+\myjpg{consommables}{1}{\color{rouge}Les consommables utilisés pour les expériences, de gauche à droite : du coton hydrophile en bande prédécoupé, la variété \textbf{V1} et la variété \textbf{V2} de lentilles. Voir la \refs{conso} pour une description détaillée.}
+
+\newpage
+
+\color{rouge}\lettrine{L}{'ensemble} des consommables utilisés (\reff{consommables}) pour les expériences a été acheté le 2021-09-30\footnote{Comme on le verra dans la \refs{fdd} toutes les dates sont ici dans le calendrier grégorien au format ISO 8601.} au magasin \frquote{PROXIMARCHE} sis 10 rue \textsc{Montesquieu} à Bourg-en-Bresse (France). Le coton hydrophile de marque \frquote{Auchan}, fabriqué en Turquie, portait le numéro de lot \texttt{270820 7110} et a été conservé à l'abri de la lumière et de l'humidité avant son utilisation. Ce coton se présente sous la forme d'une bande prédécoupée qui facilite grandement le repérage des graines de lentilles (voir par exemple la \reff{assiette}). Les deux variétés de graines de lentilles (\textit{Lens culinaris} subsp. \textit{culinaris} Friedrich Kasimir \textsc{Medikus}, 1787), notées \textbf{V1} et \textbf{V2}, étaient les suivantes :
+
+\begin{description}
+\item[V1] Des \frquote{lentilles vertes de France} de la marque \frquote{Le Bon Semeur}, conditionnées en Auvergne (SAS TRESCARTE, rue du Couderchou, 43320 LOUDES, France) portant le numéro de lot \texttt{L075 FRANCE} et ayant une date limite de consommation recommandée au mois de mars 2023. 
+\item[V2] Des \frquote{lentilles vertes issues de l'agriculture biologique} de la marque \frquote{Auchan}, conditionnées dans le Nord (Soufflet Alimentaire, 41 rue du petit Bruxelles, 59300 Valenciennes, France), sans numéro de lot explicite mais avec une date limite de consommation recommandée \texttt{18-02-22} et un indice de traçabilité \texttt{08:51}.
+\end{description}
+
+\clearpage
+
+### Instruments de mesure
+
+\color{rouge}\lettrine{P}{lusieurs} instruments ont été testés pour mesurer la longueur des pousses (voir la \reff{instruments}). La partie aérienne des pousses a été mesurée en prenant comme point de repère le résidu de l'enveloppe des graines et l'extrémité de la plus grande feuille.
+
+
+### Photographies
+
+\lettrine{L}{es} photographies ont été prise avec un smartphone de marque \frquote{SAMSUNG} de type GT-S7275R sous Android 4.2.2. Les fichiers produits pesaient de l'ordre de 1 Mio par photo, ils ont été transférés sur un ordinateur pour les convertir au format \texttt{jpg} avec un taux de compression maximum générant des fichiers de l'ordre de 100 Kio\footnote{Cette opération de compression est très importante car la taille de votre rapport ne doit pas dépasser 5 Mio, vous ne pourrez pas le déposer sur TOMUSS si vous dépassez cette limite. Vous ne pourrez pas non plus déposer votre dossier dans le forum si vous dépassez les 5 Mio.}.
+
+\myjpg{instruments}{0.75}{\color{rouge}Les instruments testés pour mesurer la longueur des pousses : une règle, une équerre, un mètre ruban de couture et un mètre ruban métallique rétractable.}
+
+\myjpg{assiette}{1}{\color{rouge}Vue de dessus du dispositif expériemental. Les graines de lentilles ont été semées sur du cotton hydrophille imbibé d'eau. Pour donner une idée de l'échelle, l'assiette a un diamètre de 26 cm.}
+
+\myjpg{carton}{0.5}{\color{rouge}Pour maintenir l'obscurité un carton de déménagement de $30 \times 30 \times 40$ cm a été posé sur l'assiette.}
+
+## Méthodes
+
+### Méthodes expérimentales\label{methexp}
+
+\color{bleu}\lettrine{L}{es} graines de lentilles ont été semées sur du coton hydrophile imbibé d'eau du robinet posé sur une assiette (voir la \reff{assiette}). De l'eau a été ajoutée tous les jours, en la versant sur le fond de l'assiette, de façon à ce que le coton reste imbibé d'eau. \color{rouge}Deux conditions d'ensoleillement ont été testées : soit l'assiette était laissée à la lumière ambiante, soit l'assiette était couverte par un carton ne laissant pas passer la lumière (voir la \reff{carton}). Le carton n'a été enlevé que pour procéder aux mesures, soit environ 5 minutes par jour. \color{bleu}Pour chaque variété de lentilles, 15 graines ont été semées pour chaque condition environnementale, soit un total de $2 \times 15 \times 2 = 60$ semis. La distance entre les graines de lentilles était au minimum de 10 mm au début de l'expérience. Un biais d'échantillonnage dans la sélection des graines semées n'est pas à exclure dans la mesure où les graines les plus grosses étaient plus faciles à saisir et à manipuler avec les doigts. Une clef d'identification, donc unique, a été attribuée à chaque graine en concaténant les trois éléments suivants :
+
+\begin{enumerate}
+\item[\FrenchEnumerate{1}] \texttt{E1} pour la première condition environnementale (\color{rouge}soleil\color{bleu}) ou \texttt{E2} pour pour la seconde condition environnementale (\color{rouge}obscurité\color{bleu}) ;
+\item[\FrenchEnumerate{2}] \texttt{V1} pour la première variété de lentilles ou \texttt{V2} pour la seconde variété de lentilles ;
+\item[\FrenchEnumerate{3}] le rang de la graine, codé sur 2 chiffres, dans la ligne du semis.
+\end{enumerate}
+
+\noindent La clef d'identification \texttt{E1V1.07} signifie par exemple la 7\ieme{} graine de la variété V1 \color{rouge}en condition de lumière ambiante. Les graines ont été semées en suivant une figure asymétrique de façon à ce que, même en cas de perte des repères portés sur la bordure de l'assiette, les graines puissent être identifiées de façon non ambiguë (voir la \reff{assiette}). \color{bleu}
+
+\lettrine{P}{our} minimiser les erreurs de saisie les mesures ont été reportées en mm pour ne pas avoir à saisir de séparateur décimal. Les mesures ont été notées sur un cahier de laboratoire reprenant la disposition des graines (voir la \reff{cahier1}). Elles ont été ensuite saisies dans un tableur \color{rouge}(LibreOffice\footnote{Ce logiciel est disponible gratuitement sous Linux, Windows et MacOS, il est donc conseillé de l'installer si vous voulez pouvoir repartir directement du fichier \texttt{lentille.ods} pour votre propre expérience.} version 7.0.4.2, The Document Foundation Copyright © 2000-2020 LibreOffice contributors). Pour faciliter le repérage, les colonnes ont été coloriées par bloc de trois (\reff{tableur}) de façon à évoquer la disposition des gaines (\reff{assiette}).\color{bleu}
+
+\lettrine{L}{e} fichier \texttt{lentille.ods} a été exporté dans le fichier \texttt{lentille.csv} au format CSV en utilisant le format UTF-8 pour l'encodage des caractères, le point virgule \frquote{;} comme séparateur des colonnes et des guillemets droits \frquote{"} comme délimiteur des chaînes de caractères (voir la \reff{export}). Le format CSV est un acronyme de \textit{Comma Separated Value} signifiant que les colonnes sont normalement séparée par des virgules \frquote{,}, mais avec un système d'exploitation localisé en France (\refs{info}) cela porterait à confusion puisque la virgule est utilisée comme séparateur décimal. Pour importer les données dans R il faut alors utiliser la fonction \texttt{read.csv2()}.
+
+```{r import}
+
+#################################
+# Importation du jeu de données #
+#################################
+
+lentilles <- read.csv2("data/lentilles.csv")
+
+# Remarque : si besoin de revenir aux données originelles faire
+# lentilles <- read.csv2("data/sauvegardes/lentilles.csv")
+```
+
+\myjpg{tableur}{1}{\color{rouge}Copie d'écran du tableur utilisé pour la saisie des données. La première colonne contient les dates de mesure, les colonnes suivantes contiennent les mesures faites pour chaque graine. Voir la \reff{zoomTableur} pour un zoom.}
+
+\myjpg{export}{0.5}{\color{rouge}Les options utilisées lors de l'exportation du fichier \texttt{lentille.ods} au format CSV.}
+
+```{r dates}
+
+#################################
+# Utilisation de la classe Date #
+#################################
+
+lentilles$date <- as.Date(lentilles$date)
+deb <- min(lentilles$date) # Début de l'expérience
+fin <- max(lentilles$date) # Fin de l'expérience
+
+# On pourra ensuite utiliser ces variables dans le corps du rapport avec
+# des constructions du type : du `r deb` au `r fin`, inclus, soit un 
+# suivi de `r 1 + (fin - deb)` jours. 
+```
+
+```{r controles}
+
+########################
+# Contrôles de qualité #
+########################
+
+# Contrôle de qualité : 61 colonnes attendues
+
+if(ncol(lentilles) != 61) stop("Il n'y a pas 61 colonnes comme attendu")
+
+# Contrôle de qualité : l'expérience dure environ 21 jours, si on a plus de
+# 42 jours c'est certainement que les dates ne sont pas au format ISO 8601
+# dans le fichier importé.
+
+if(difftime(fin, deb) > 42)
+  stop("Vérifiez que les dates soient bien au format ISO 8601")
+
+# Contrôle de qualité : si l'importation des données est correcte, les
+# colonnes de 2 à 61 doivent être de la classe 'integer'
+
+for(j in 2:61){
+  if(class(lentilles[ , j]) != "integer"){
+    nomcol <- colnames(lentilles)[j]
+    msg <- paste("La colonne numéro", j, ":", nomcol, "n'est pas du type 'integer'")
+    stop(msg)
+  }
+}
+
+# Contrôle de qualité : si l'importation des données est correcte, il n'y
+# a pas de valeurs manquantes dans toutes les colonnes. On renseigne ici la
+# colonne éventuellement impliquée.
+
+for(j in 1:61){
+  if(any(is.na(lentilles[ , j]))){
+    nomcol <- colnames(lentilles)[j]
+    msg <- paste("La colonne numéro", j, ":", nomcol, "comporte des valeurs manquantes")
+    stop(msg)
+  }
+}
+
+# Contrôle de qualité : le nom des colonnes est imposé
+
+noms.attendus <- 
+c("date", "E1V1.01", "E1V1.02", "E1V1.03", "E1V1.04", "E1V1.05", 
+"E1V1.06", "E1V1.07", "E1V1.08", "E1V1.09", "E1V1.10", "E1V1.11", 
+"E1V1.12", "E1V1.13", "E1V1.14", "E1V1.15", "E1V2.01", "E1V2.02", 
+"E1V2.03", "E1V2.04", "E1V2.05", "E1V2.06", "E1V2.07", "E1V2.08", 
+"E1V2.09", "E1V2.10", "E1V2.11", "E1V2.12", "E1V2.13", "E1V2.14", 
+"E1V2.15", "E2V1.01", "E2V1.02", "E2V1.03", "E2V1.04", "E2V1.05", 
+"E2V1.06", "E2V1.07", "E2V1.08", "E2V1.09", "E2V1.10", "E2V1.11", 
+"E2V1.12", "E2V1.13", "E2V1.14", "E2V1.15", "E2V2.01", "E2V2.02", 
+"E2V2.03", "E2V2.04", "E2V2.05", "E2V2.06", "E2V2.07", "E2V2.08", 
+"E2V2.09", "E2V2.10", "E2V2.11", "E2V2.12", "E2V2.13", "E2V2.14", 
+"E2V2.15")
+
+if(!identical(colnames(lentilles), noms.attendus)){
+  stop("Le nom des colonnes n'est pas conforme")
+}
+
+
+# Si les contrôles de qualité sont passés, on sauvegarde les données
+# pour pouvoir les exploiter en dehors du présent *.Rmd dans une
+# session R avec load("data/lentilles.Rda"). On ajoute la date à
+# laquelle a été généré l'objet lentilles en commentaire pour 
+# aider à la traçabilité.
+
+comment(lentilles) <- paste("Généré le", Sys.time())
+
+save(lentilles, file = "data/lentilles.Rda")
+
+```
+
+
+
+\color{bleu}\lettrine{L}{a} période d'observation de la croissance des plants de lentilles était du `r deb` au `r fin`, inclus, soit un suivi de `r 1 + (fin - deb)` jours. \color{rouge}Dans la mesure du possible l'heure d'observation était 17h00, dans la pratique elle a varié de 16h45 à 20h00.\color{bleu}
+
+### Format des dates\label{fdd}
+
+\color{bleu}\lettrine{L}{es} dates manipulées ici sont celles du calendrier grégorien au format ISO 8601, par exemple `r Sys.Date()`. Dans le logiciel R [@R] ce sont des objets de la classe \texttt{Date}. L'avantage du format ISO 8601 est que l'ordre chronologique est le même que l'ordre lexicographique\footnote{Pour plus de détails sur les possibilités offertes par les objets de la classe \texttt{Date} on pourra consulter la fiche \frquote{Manipulation de données calendaires appliquée au suivi hebdomadaire de la croissance de dix chênes pendant sept ans} à \url{https://pbil.univ-lyon1.fr/R/pdf/dendroCHS57.pdf}}.
+
+
+\myjpg{cahier1}{0.9}{\color{rouge}Copie du cahier de laboratoire pour le relevé du 2022-06-09. Les relevés pour la lumière ambiante sont en haut, ceux à l'obscurité en bas. Les tailles des plants de lentille sont notés en mm. La localisation des valeurs suit celle du dispositif expérimental (\reff{assiette}).}
+
+\myjpg{zoomTableur}{1}{\color{rouge}Zoom de la \reff{tableur}. La nomenclature utilisée pour désigner les graines de lentilles est expliquée dans la \refs{methexp}.}
+
+### Méthodes statistiques
+
+\color{bleu}\lettrine{T}{outes} les analyses statistiques ont été faites avec le logiciel R [@R] en utilisant l'interface homme-machine \texttt{RStudio}\footnote{Pour une introduction basique à cette interface voir : \url{https://pbil.univ-lyon1.fr/R/pdf/RStudio.pdf}} (Version \color{rouge}1.4.1717 © 2009-2021 RStudio, PBC\color{bleu}). On trouvera en annexe le détail de l'environnement de travail utilisé ici (\refs{info}). Un risque de première espèce de `r 100*alpha` % ($\alpha = `r alpha`$) a été utilisé pour tous les tests statistiques.
+
+### Taux de germination\label{defTauxG}
+
+\color{bleu}\lettrine{L}{es} graines de lentilles ayant produit un plan de longueur au moins égale à `r seuilG` mm ont été considérées comme ayant germé. Le taux de germination est le rapport exprimé en pourcentage du nombre de graines germées sur le nombre de graines semées. Si on note, pour une variété donnée, $p_1$ la proportion de lentilles germées dans la condition \texttt{E1} et $p_2$ la proportion des lentilles germées dans la condition \texttt{E2}, la table de contingence qui exprime les résultats bruts est de la forme :
+
+$$
+\begin{tabular}{lll}
+ & E1 & E2\\
+ \hline
+\text{germé} & $np_1$ & $np_2$\\
+\text{non-germé} & $n(1-p_1)$ & $n(1-p_2)$\\
+\hline
+\end{tabular}
+$$
+
+\lettrine{L}{a} fonction \texttt{mosaicplot()} a été utilisée pour représenter graphiquement ces résultats. Pour tester l'égalité des deux proportions nous nous somme placés sous l'hypothèse nulle $\text{H}_0 : p_1 = p_2 = p$, la table précédente avec mention des totaux marginaux s'écrit alors :
+
+$$
+\begin{tabular}{lll|l}
+ & E1 & E2 & \\
+ \hline
+\text{germé} & $np_1$ & $np_2$ & $2np$\\
+\text{non-germé} & $n(1-p_1)$ & $n(1-p_2)$ & $2n(1-p)$\\
+ \hline
+& $n$ & $n$ & $2n$\\
+\end{tabular}
+$$
+
+\lettrine{O}{n} se ramène alors à un test d'indépendance du $\chi^2$ qui a été effectué par simulation avec la fonction \texttt{chisq.test()} avec le paramètre \texttt{simulate.p.value} forcé à \texttt{TRUE} car la faible valeur de nos effectifs ne nous permet pas d'utiliser la loi du $\chi^2$ comme une approximation valable de la distribution de la statistique.
+
+
+### Modélisation de la croissance des plants\label{deflogistique}
+
+\color{bleu}\lettrine{L}{e} modèle de croissance de \bsc{Verhulst} [@VerhulstPF1838; @VerhulstPF1845; @VerhulstPF1846; @VerhulstPF1847] a été utilisé pour résumer la croissance des plants de lentilles. Le critère des moindres carrés ordinaires a été utilisé pour ajuster le modèle aux données. La fonction \texttt{SSlogis()} de la classe \texttt{selfStart}\footnote{Pour plus de détails sur cette classe de modèles voir \url{https://pbil.univ-lyon1.fr/R/pdf/tdr4SS.pdf}} a été utilisée pour la mise en œuvre de cet ajustement. La paramétrisation utilisée par \texttt{SSlogis()} est la suivante :
+
+\Large
+
+$$
+y = f(x) = \frac{y_\infty}{1 + e^{\frac{1}{\sigma} (x_m -x)}}
+$$
+\normalsize
+
+\lettrine{L}{e} paramètre $y_\infty$, \texttt{Asym} pour \texttt{SSlogis()}, représente la valeur de l'ordonnée de l'asymptote pour les grandes valeurs de $x$ :
+
+$$
+\lim_{x \rightarrow +\infty} f(x) = y_\infty
+$$
+
+\lettrine{L}{e} paramètre $x_m$, \texttt{xmid} pour \texttt{SSlogis()}, est l'abscisse du point d'inflexion de la courbe de croissance, son ordonnée est à mi-hauteur :
+
+$$
+f(x_m) = \frac{y_\infty}{2}
+$$
+
+\lettrine{L}{e} paramètre $\sigma$, \texttt{scal} pour \texttt{SSlogis()}, contrôle la vitesse de transition entre les deux asymptotes (voir la \reff{paramlogis}).
+
+```{r illustationlogistique}
+
+####################################################
+# Illustration des paramètres du modèle logistique #
+####################################################
+
+logistique <- function(x, Asym, xmid, scal){
+  return(Asym/(1 + exp((xmid - x)/scal)))
+}
+jpeg("figs/paramlogis.jpg", width = 480, height = 320)
+# Définition de la fenêtre graphique :
+plot.new()
+jdeb <- 0 ; jfin <- 15 ; xlim <- c(jdeb, jfin)
+# exemple avec une lentille qui a poussé :
+Asym <- 178 ; xmid <- 7 ; scal <- 1.5
+ylim <- c(0, Asym)
+plot.window(xlim = xlim, ylim = ylim)
+title(main = "Les paramètres du modèle logistique")
+axis(2, las = 1) ; title(ylab = "Hauteur [mm]")
+axis(1) ; title(xlab = "Temps [jours]") ; box()
+xx <- seq(jdeb, jfin, le = 256)
+points(xx, logistique(xx, Asym, xmid, scal), type = "l")
+segments(jdeb, Asym, jfin, Asym, lty = 3)
+text(jdeb, Asym - 10, expression(italic(y)[infinity]))
+segments(jdeb, Asym/2, xmid, Asym/2, lty = 3)
+text(jdeb, Asym/2, expression(frac(italic(y)[infinity],2)))
+segments(xmid, 0, xmid, Asym/2, lty = 3)
+text(xmid, 0, expression(italic(x[m])))
+sseq <- seq(0.5, 2.5, by = 0.5) ; ns <- length(sseq)
+col <- hcl.colors(ns, "Heat")
+for(i in seq_len(ns))
+  points(xx, logistique(xx, Asym, xmid, sseq[i]), type = "l",
+         col = col[i])
+legend("bottomright", inset = 0.02, legend = sseq, lty = 1,
+       col = col, title = expression(sigma))
+dev.off()
+```
+
+\myjpg{paramlogis}{1}{\color{bleu}Illustration des paramètres du modèle logistique. Notez que la transition entre les deux asymptotes est d'autant plus rapide que le paramètre $\sigma$ est petit.}
+
+### Comparaison des tailles finales\label{testcomp}
+
+\lettrine{L}{a} faiblesse de nos effectifs ne permettait pas de tester de façon fiable les conditions d'application du test paramétrique de comparaison de moyenne entre deux populations (test dit de \bsc{Student} implémenté dans la fonction \texttt{t.test()}), nous nous sommes tournés vers son pendant non-paramétrique, le test de \bsc{Wilcoxon-Mann-Whitney} implémenté dans la fonction \texttt{wilcox.text()}.
+
+### Reproductibilité\label{repro}
+
+\color{bleu}\lettrine{P}{our} faciliter la reproductibilité de ce rapport, il a été composé au format \texttt{RMarkdown} [@rmd1;@rmd2;@rmd3] et pris en charge avec le paquet R \texttt{knitr} [@knitr1;@knitr2;@knitr3]. Le paquet R \texttt{tinytex} [@tinytex1;@tinytex2] a été utilisé pour installer la distribution Tiny\TeX. Les paquets et les macros \LaTeX\ utilisés sont donnés dans le fichier \texttt{preamble.tex} repris dans la \refs{codeLaTeX}. Le code R utilisé est donné en annexe dans la \refs{codeR}.
+
+
+
+\color{rouge}
+
+# Résultats
+
+## Instruments de mesure
+
+\lettrine{C}{'est} l'équerre qui était la plus ergonomique parce que les graduations commencent dès l'extrémité de l'instrument. Malheureusement, il n'avait pas été anticipé que les plants puissent dépasser la longueur du coté adjacent de l'équerre : la plus grande valeur mesurée était de `r max(lentilles[ , -1])` mm alors que l'équerre avait une capacité de 200 mm (voir la \reff{instruments}). Pour les valeurs supérieures à 200 mm c'est la règle, moins ergonomique, qui a été utilisée.
+ 
+## Taux de germination\label{restg}
+
+```{r tauxG}
+
+##################################
+# Calcul des taux de germination #
+##################################
+
+# Extraction des deux premiers caractères du nom des colonnes
+# pour avoir le type d'expérience (E1V1, E1V2, E2V2, E2V2) :
+nomenclature <- substr(colnames(lentilles), 1, 4)
+# Calcul de l'indice ifin de la dernière mesure de 
+# l'expérience :
+ifin <- nrow(lentilles)
+
+# Boucle sur les 4 types de graines possibles
+for(type in all.types)
+{
+  # Calcul du nombre de graines semées :
+  assign(paste0("n.", type), sum(nomenclature == type))
+  # Calcul du nombre de graines germées (i.e. longueur des plants
+  # au moins égal à seuilG à la fin de l'expérience) :
+  assign(paste0("ng.", type), 
+    sum(lentilles[ifin, nomenclature == type] > seuilG))
+  # Calcul des taux de germination en pourcentage
+  assign(paste0("tg.", type), 
+    100*get(paste0("ng.", type))/get(paste0("n.", type)))
+}
+
+# Taux de germination global :
+n.glob <- sum(sapply(paste0("n.", all.types), get))
+ng.glob <- sum(sapply(paste0("ng.", all.types), get))
+tg.glob <- 100*ng.glob/n.glob
+# Taux de germination de la variété V1 :
+typeV1 <- c("E1V1", "E2V2")
+n.V1 <- sum(sapply(paste0("n.", typeV1), get))
+ng.V1 <- sum(sapply(paste0("ng.", typeV1), get))
+tg.V1 <- 100*ng.V1/n.V1
+# Taux de germination de la variété V2 :
+typeV2 <- c("E1V2", "E2V2")
+n.V2 <- sum(sapply(paste0("n.", typeV2), get))
+ng.V2 <- sum(sapply(paste0("ng.", typeV2), get))
+tg.V2 <- 100*ng.V2/n.V2
+# Taux de germination de la condition E1 :
+typeE1 <- c("E1V1", "E1V2")
+n.E1 <- sum(sapply(paste0("n.", typeE1), get))
+ng.E1 <- sum(sapply(paste0("ng.", typeE1), get))
+tg.E1 <- 100*ng.E1/n.E1
+# Taux de germination de la condition E2 :
+typeE2 <- c("E2V1", "E2V2")
+n.E2 <- sum(sapply(paste0("n.", typeE2), get))
+ng.E2 <- sum(sapply(paste0("ng.", typeE2), get))
+tg.E2 <- 100*ng.E2/n.E2
+```
+
+\color{bleu}\lettrine{A}{vec} un seuil de germination de `r seuilG` mm pour la longueur des plants, le taux de germination était globalement de `r signif(tg.glob, 2)` %, de `r signif(tg.V1, 2)` % pour la variété \textbf{V1}, de `r signif(tg.V2, 2)` % pour la variété \texttt{V2}, de `r signif(tg.E1, 2)` % \color{rouge} en condition de luminosité ambiante \color{bleu} et de `r signif(tg.E2, 2)` % \color{rouge}à l'ombre. En condition de luminosité ambiante \color{bleu}le taux de germination était de `r signif(tg.E1V1, 2)` % pour la variété \textbf{V1} et de `r signif(tg.E1V2, 2)` % pour la variété \textbf{V2}, et, \color{rouge}dans l'obscurité\color{bleu}, de `r signif(tg.E2V1, 2)` % pour la variété \textbf{V1} et de `r signif(tg.E2V2, 2)` % pour la variété \textbf{V2}. L'impact des conditions environnementales sur les taux de germination sont représentés sur la \reff{tauxG}.
+
+```{r figtauxG}
+###################################################
+# Représentation graphique du taux de germination #
+###################################################
+
+mkjpeg <- TRUE
+if(mkjpeg) jpeg("figs/tauxG.jpg", width = 480, height = 240)
+
+# Calcul des résultats bruts pour la variété V1
+resbrutV1 <- matrix(c(ng.E1V1, n.V1/2 - ng.E1V1,
+                      ng.E2V1, n.V1/2 - ng.E2V1), nrow = 2, ncol = 2)
+rownames(resbrutV1) <- c("germé", "non-germé")
+colnames(resbrutV1) <- c("E1", "E2")
+# Calcul des résultats bruts pour la variété V2
+resbrutV2 <- matrix(c(ng.E1V2, n.V2/2 - ng.E1V2,
+                      ng.E2V2, n.V2/2 - ng.E2V2), nrow = 2, ncol = 2)
+rownames(resbrutV2) <- c("germé", "non-germé")
+colnames(resbrutV2) <- c("E1", "E2")
+# Représentation graphique
+par(mfrow = c(1, 2), mar = c(1, 1, 4, 1) + 0.1)
+mosaicplot(t(resbrutV1), shade = TRUE, main = "Variété V1")
+mosaicplot(t(resbrutV2), shade = TRUE, main = "Variété V2")
+if(mkjpeg) dev.off()
+```
+
+\myjpg{tauxG}{1}{\label{tauG}Résultats bruts pour le taux de germination des graines de lentilles pour les variétés \texttt{V1} à gauche et \texttt{V2} à droite. La surface des rectangles est directement proportionnelle aux effectifs observés. \color{rouge}La condition expérimentale \texttt{E1} est au soleil et la condition \texttt{E2} à l'obscurité.}
+
+```{r}
+
+#######################################################
+# Test de l'impact des conditions environnementales sur
+# le taux de germination des variétés V1 et V2
+#######################################################
+tgtestV1 <- chisq.test(resbrutV1, simulate.p.value = TRUE)$p.value
+tgtestV2 <- chisq.test(resbrutV2, simulate.p.value = TRUE)$p.value
+```
+
+\lettrine{L}{a} \textit{p-value} pour les tests de comparaison du taux de germination en fonction des conditions expérimentales était de `r signif(tgtestV1, 3)` pour la variété \texttt{V1} et de `r signif(tgtestV2, 3)` pour la variété \texttt{V2}. Avec un risque de première espèce $\alpha = `r alpha`$, \color{rouge} nous sommes donc dans l'incapacité de rejeter l'hypothèse nulle pour les deux variétés de lentilles. Nous acceptons donc, faute de mieux, avec un risque de seconde espèce inconnu, l'hypothèse de l'absence d'effet des conditions expérimentales sur le taux de germination des lentilles.\color{bleu}
+
+
+## Courbes de croissance
+
+```{r courbes}
+
+########################################################
+# Représentation graphique de la croissance des plants #
+########################################################
+
+mkjpeg <- TRUE
+# Ouverture du périphérique graphique :
+if(mkjpeg) jpeg("figs/courbes.jpg")
+
+# Paramètres graphiques : 2 X 2 graphes, marge externe en
+# haut et ajustement des marges internes :
+par(mfrow = c(2, 2), oma = c(0, 0, 2, 0), mar = c(5, 4, 3, 1))
+
+# Boucle sur les quatre types de graines :
+for(type in all.types){
+  # Colonnes concernées
+  jtype <- which(nomenclature == type)
+  # Que les plants germés :
+  todo <- jtype[lentilles[ifin, jtype] >= seuilG]
+  n <- length(todo)
+  mycol <- hcl.colors(n, "Dark 2")
+  
+  # Définition de la fenêtre graphique :
+  plot.new()
+  # Temps en jours depuis le début de l'expérience
+  x <- as.numeric(lentilles$date - lentilles$date[1]) 
+  xlim <- range(x)
+  # échelle commune en y pour tous les graphes :
+  ylim <- range(lentilles[ , -1])
+  plot.window(xlim = xlim, ylim = ylim)
+  title(main = paste("Type", type))
+  axis(2, las = 1) ; title(ylab = "Hauteur [mm]")
+  axis(1)
+  title(xlab = "Temps [jours]") ; box()
+  
+  # Pour chaque lentille germée, tracer les points et les
+  # courbes du modèle logistique :
+  for(j in seq_len(n)){
+    points(x, lentilles[ , todo[j]], pch = j,
+           col = mycol[j])
+    y <- lentilles[ , todo[j]]
+    data <- as.data.frame(list(x = x, y = y))
+    # Estimation des paramètres :
+    resnls <- try(nls(y ~ SSlogis(x, Asym, xmid, scal), data = data),
+                  silent = TRUE)
+    # Si problème pour estimer les paramètres on passe au suivant
+    if(inherits(resnls, "try-error")) next
+    # Ajout du modèle estimé sur le graphique :
+    xx <- as.numeric(seq(min(x), max(x), length.out = 256))
+    lines(xx, predict(resnls, list(x = xx)), col = mycol[j])
+  }
+  if(length(todo) > 0){
+    # Mettre deux colonnes si plus de 5 courbes
+    ncol <- 1
+    if(length(todo) > 5) ncol <- 2
+    # Calculer l'ordre d'affichage des plants dans la légende
+    # pour que les plus grands soient en haut :
+    myo <- rev(order(unlist(lentilles[ifin, todo])))
+    legend("topleft", inset = 0.02, 
+           legend = colnames(lentilles)[todo][myo],
+           bg = grey(0.95), pch = myo, col = mycol[myo], cex = 0.75,
+           ncol = ncol)
+  }
+}
+
+# Titre général :
+title(main = "Croissance des plants de lentilles", 
+      outer = TRUE, cex.main = 1.5)
+# Fermeture du périphérique graphique :
+if(mkjpeg) dev.off()
+```
+
+\myjpg{courbes}{1}{\color{bleu}Chaque graphique correspond à une condition expérimentale. En haut, \color{rouge}en condition de lumière ambiante, en bas à l'obscurité, \color{bleu} à gauche la variété \textbf{V1} et à droite la variété \textbf{V2}. Les graines n'ayant pas germé au sens de la \refs{defTauxG} ne sont pas représentées ici. Les courbes représentent le meilleur ajustement avec le critère des moindres carrés au modèle de croissance logistique. Pour faciliter les comparaisons les échelles en abscisse et ordonnée sont communes aux quatre graphiques.}
+
+
+```{r tabparam}
+
+##########################################################
+# Calcul de la table des paramètres du modèle logistique #
+##########################################################
+# Les colonnes avec les données de croissance :
+jcol <- which(nomenclature %in% all.types)
+# Les colonnes des lentilles germées :
+plants <- jcol[lentilles[ifin, jcol] >= seuilG]
+np <- length(plants)
+tabparam <- as.data.frame(matrix(NA, nrow = np, ncol = 3))
+colnames(tabparam) <- c("Asym", "xmid", "scal")
+rownames(tabparam) <- colnames(lentilles)[plants]
+# Calcul des paramètres pour chaque plant
+for(i in seq_len(np)){
+    y <- lentilles[ , plants[i]]
+    data <- as.data.frame(list(x = x, y = y))
+    # Estimation des paramètres :
+    resnls <- try(nls(y ~ SSlogis(x, Asym, xmid, scal), data = data),
+                  silent = TRUE)
+    # Si problème on passe au suivant
+    if(inherits(resnls, "try-error")) next
+    tabparam[i, ] <- coef(resnls)
+}
+# Ajout d'une colonne pour la condition environnementale (env)
+# et d'une colonne pour la variété de lentilles (var)
+
+tabparam$env <- factor(substr(rownames(tabparam), 1, 2), 
+                          levels = c("E1", "E2"))
+tabparam$var <- factor(substr(rownames(tabparam), 3, 4),
+                          levels = c("V1", "V2"))
+```
+
+
+```{r tablatex}
+
+######################################
+# Calcul de la table au format LaTeX #
+######################################
+
+# On part de la table déjà calculée
+tablatex <- tabparam
+
+# La fonction print.xtable() du paquet xtable fait son possible pour
+# protéger les caractères spéciaux de LaTeX, par exemple en remplaçant
+# les $ par \$. Comme on veut des formules LaTeX dans le nom des
+# colonnes on va neutraliser ce comportement en définissant une
+# fonction qui ne fait rien et que l'on donnera pour l'argument
+# sanitize.colnames.function de print.xtable()
+
+pastouche <- function(x) return(x)
+
+# On peut maintenant changer le nom des colonnes pour utiliser des
+# formules LaTeX avec la précaution que l'oblique inverse \ doit
+# elle-même être protégée par une oblique inverse :
+
+colnames(tablatex)[1:3] <- c("$y_\\infty\\ \\left[\\text{mm}\\right]$", 
+                             "$x_m\\ \\left[\\text{j}\\right]$", 
+                             "$\\sigma\\ \\left[\\text{j}^{-1}\\right]$")
+
+caption <- paste0("\\color{bleu}Les paramètres du modèle logistique au ", fin, ". ",
+  "Les valeurs manquantes signifient que les paramètres du modèle",
+  " ($y_\\infty$, $x_m$ et $\\sigma$) n'ont pas pu être estimées. ",
+  "La signification des paramètres est donnée dans la \\refs{deflogistique}. ",
+  "Les colonnes env et var précisent les conditions expérimentales ",
+  "et les variétés de lentilles, respectivement ",
+  "(voir la \\refs{methexp}).")
+
+print(xtable(tablatex, caption = caption, label = "tabparam"), 
+  file = "tabs/tabparam.tex",
+  sanitize.colnames.function = pastouche, size = "scriptsize")
+```
+
+\input{tabs/tabparam.tex}
+
+```{r tabtail}
+
+#######################################
+# Calcul des tailles finales par type #
+#######################################
+
+# Seuil d'exclusion des pousses tardives
+
+seuilxm <- 10
+tabparamutil <- tabparam
+tabparamutil <- tabparamutil[!is.na(tabparamutil$xmid), ]
+# On conserve les plants qui étaient déjà à mi-hauteur avant
+# seuilxm jours, l'abscice du point d'inflexion xmid doit donc
+# être inférieure à seuilxm
+tabparamutil <- tabparamutil[tabparamutil$xmid < seuilxm, ]
+tabparamutil$fac <- as.factor(paste0(tabparamutil$env, tabparamutil$var))
+
+# Calcul du tableau des taille finales
+tabtail <- as.data.frame(matrix(NA, nrow = 4, ncol = 2))
+colnames(tabtail) <- c("n", "moyenne")
+for(i in seq_len(length(all.types))){
+  rownames(tabtail)[i] <- all.types[i]
+  qui <- which(tabparamutil$fac == all.types[i])
+  tabtail[i, "n"] <- length(qui)
+  tabtail[i, "moyenne"] <- mean(tabparamutil[qui, "Asym"])
+}
+
+# Représentation graphique
+jpeg("figs/taille.jpg", width = 480, height = 320)
+stripchart(Asym~fac, tabparamutil, las = 1, pch = 19,
+           xlab = "Taille finale [mm]")
+dev.off()
+
+# Calcul de la table LaTeX :
+
+caption <- "Longueurs moyennes finales des plants de lentilles."
+
+print(xtable(tabtail, caption = caption, label = "tabtail", 
+    digits = 1), 
+  file = "tabs/tabtail.tex")
+```
+
+\input{tabs/tabtail.tex}
+
+\myjpg{taille}{1}{Impact des conditions expériementales sur la taille finale des plants de lentille.}
+
+\lettrine{L}{es} courbes de croissance des plants de lentille sont représentées dans la \reff{courbes}. Les paramètres du modèle logistique sont donnés dans la \reft{tabparam}. Les courbes de croissances étaient remarquablement synchrones pour le type \textbf{E1V1} alors que pour les autres types il y avait des croissances tardives. Pour les croissances les plus précoces, le paramètre $x_m$ était typiquement de 7 jours, signifiant que la croissance était terminée au bout de deux semaines. La taille finale, $y_\infty$, ne pouvait être appréciée que pour les plants ayant achevé leur croissance. Le critère d'exclusion $x_m \ge `r seuilxm`\ \text{j}$ a été utilisé pour ne pas tenir compte des pousses tardives dans l'estimation de $y_\infty$.
+
+## Comparaison des tailles finales
+
+```{r testDeComparaisonDesTaillesFinales}
+# Variété V1
+x <- subset(tabparamutil, var == "V1" & env == "E1")$Asym
+y <- subset(tabparamutil, var == "V1" & env == "E2")$Asym
+pvalwV1 <- wilcox.test(x, y)$p.value
+# Variété V2
+x <- subset(tabparamutil, var == "V2" & env == "E1")$Asym
+y <- subset(tabparamutil, var == "V2" & env == "E2")$Asym
+pvalwV2 <- wilcox.test(x, y)$p.value
+```
+
+
+\lettrine{L}{a} \textit{p value} du test était de `r signif(pvalwV1, 3)` pour la variété \texttt{V1} et de `r signif(pvalwV2, 3)` pour la variété \texttt{V2}. Les données expérimentales étaient en contradiction avec l'hypothèse de l'égalité des tailles pour la variété \textbf{V1} entre les conditions en lumière ambiante et celle à l'obscurité.
+
+
+
+\clearpage
+
+# Discussion
+
+
+
+## Taux de germination
+
+\color{rouge}
+\lettrine{J}{'ai} été déçu par le taux relativement faible de germination observé dans mes expériences. Je manque d'éléments de comparaison, mais dans une expérience similaire en condition de lumière ambiante (Marie-Claude \bsc{Venner}, communication personnelle) la germination avait été observée pour 20 lentilles sur 60 semées, soit un taux de $33.3\ \%$, comparable à celui de $`r signif(tg.E1, 3)`\ \%$ observé ici. La petite taille des échantillons utilisés ici ne permet clairement pas de conclure quoi que ce soit de statistiquement significatif quant à l'effet des conditions de culture  sur le taux de germination (voir la \refs{restg}). 
+
+
+## Courbes de croissance
+
+\lettrine{P}{our} la variété \textbf{V1}, comme le montre la \reff{taille}, la taille finale des plants ayant poussés à l'obscurité ($\hat{\mu}_O = `r signif(tabtail[3, 2], 3)`\ \text{mm}$) était significativement ($\alpha = `r alpha`$) plus grande que celle de ceux ayant poussés en condition de lumière ambiante ($\hat{\mu}_S = `r signif(tabtail[1, 2], 3)`\ \text{mm}$). L'obscurité augmente ainsi la taille finale des plants de la variété \textbf{V1} de $`r signif(100*(tabtail[3, 2] - tabtail[1, 2])/tabtail[1, 2], 3)`\ \%$. Une interprétation possible est qu'il s'agit d'un phénomène adaptatif. Dans les conditions naturelles les graines seront à l'obscurité quand elles sont enfouies dans le sol, il y aurait donc un avantage sélectif à allonger la tige au maximum pour trouver la lumière nécessaire à la photosynthèse. Elles pourraient être également en compétition avec d'autres plants pour la captation de la lumière et avoir intérêt à allonger la tige si elle se retrouve à l'ombre.
+
+# Conclusion
+
+\lettrine{P}{our} la production de plants de lentilles on aura intérêt à utiliser des graines de la variété \textbf{V1} semées à l'obscurité.
+\color{bleu}
+
+# Abstract
+
+\color{rouge}\lettrine{L}{a croissance} de 15 graines de lentilles (\textit{Lens culinaris} subsp. \textit{culinaris} Medik.) a été suivie pendant `r nrow(lentilles)` jours pour deux variétés (\textbf{V1} ou \textbf{V2}) et dans deux conditions environnementales (à l'obscurité ou non). L'effort d'échantillonnage était insuffisant pour mettre en évidence des effets significatifs sur les taux de germination des graines. Pour la variété \textbf{V1} la taille finale des plants ayant poussés à l'obscurité ($\hat{\mu}_O = `r signif(tabtail[3, 2], 3)`\ \text{mm}$) était significativement ($\alpha = `r alpha`$) plus grande que celle de ceux ayant poussés en condition de lumière ambiante ($\hat{\mu}_S = `r signif(tabtail[1, 2], 3)`\ \text{mm}$). La taille finale des plants de la variété \textbf{V1} était augmentée en moyenne à l'obscurité de $`r signif(tabtail[3, 2] - tabtail[1, 2] , 3)`\ \text{mm}$, soit de $`r signif(100*(tabtail[3, 2] - tabtail[1, 2])/tabtail[1, 2], 3)`\ \%$. Les données de croissance étaient insuffisantes pour la variété \textbf{V2} pour pouvoir conclure à un effet des conditions environnementales.
+
+```{r}
+msg <- character() ; Encoding(msg) <- "UTF-8"
+if(knitr::current_input() == "BIO3164L.Rmd"){
+  msg <- "\\textbf{Attention, attention, attention} : le fichier \\mbox{\\texttt{BIO3164L.Rmd}} n'a pas été renommé en \\mbox{\\texttt{NomPrenom.Rmd}}. Ne pas utiliser d'espace, de tiret, de caractères spéciaux ou de caractères accentués dans \\mbox{\\texttt{NomPrenom.Rmd}}." 
+  } else { 
+  msg <- ""
+}
+```
+
+`r msg`
+
+
+```{r sauvegardedetout}
+save.image("data/mesdonnes.Rda")
+```
+
+\newpage
+
+
+# Bibliographie
+
+\color{bleu}
+
+<div id="refs"></div>
+
+\newpage
+
+# Annexes
+
+## Environnement de travail\label{info}
+
+```{r environnement,include=TRUE,echo=FALSE,results='asis'}
+# Pour inclure l'environnement R utilisé
+toLatex(sessionInfo())
+```
+
+## Code R utilisé\label{codeR}
+
+\scriptsize
+
+```{r get-labels}
+labs <- knitr::all_labels()
+# Liste des fragments de code à ne pas afficher
+labs <- setdiff(labs, c("setup", "get-labels", "affichetout"))
+```
+
+```{r affichetout, ref.label=labs, include=TRUE, eval=FALSE}
+# Pour afficher tous les fragments de code sans les exécuter
+```
+
+## Code LaTeX utilisé\label{codeLaTeX}
+
+\verbatiminput{preamble.tex}
+
+
